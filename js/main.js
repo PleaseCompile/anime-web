@@ -149,6 +149,10 @@ function createParticle(container, flowers) {
     particle.className = 'particle';
     particle.textContent = flowers[Math.floor(Math.random() * flowers.length)];
     
+    // Constants for blur calculation
+    const BLUR_THRESHOLD = 30; // Size threshold for applying blur
+    const BLUR_DIVISOR = 20;   // Divisor for blur intensity calculation
+    
     // Random properties for depth illusion
     const size = 15 + Math.random() * 30; // 15px to 45px
     const startX = Math.random() * 100; // 0% to 100% of viewport width
@@ -156,19 +160,18 @@ function createParticle(container, flowers) {
     const delay = Math.random() * 5; // 0s to 5s delay
     const horizontalDrift = -100 + Math.random() * 200; // -100px to 100px drift
     
-    // Apply styles
+    // Calculate blur: smaller particles (farther away) get more blur
+    const blurAmount = size > BLUR_THRESHOLD ? 0 : (BLUR_THRESHOLD - size) / BLUR_DIVISOR;
+    
+    // Apply all styles including animation in a single cssText assignment
     particle.style.cssText = `
         left: ${startX}%;
         font-size: ${size}px;
-        animation-duration: ${duration}s;
-        animation-delay: ${delay}s;
         --drift: ${horizontalDrift}px;
-        filter: blur(${size > 30 ? 0 : (30 - size) / 20}px);
+        filter: blur(${blurAmount}px);
         z-index: ${Math.floor(size)};
+        animation: floatParticle ${duration}s linear ${delay}s;
     `;
-    
-    // Update animation keyframes for horizontal drift
-    particle.style.animation = `floatParticle ${duration}s linear ${delay}s`;
     
     container.appendChild(particle);
     
@@ -269,31 +272,39 @@ function initScrollAnimations() {
         }
     });
     
-    // ScrollTrigger for content section
-    gsap.from('.feature-card', {
-        scrollTrigger: {
-            trigger: '.content-section',
-            start: 'top 80%',
-            toggleActions: 'play none none reverse'
-        },
-        y: 100,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        ease: 'power2.out'
-    });
+    // ScrollTrigger for content section - with element existence checks
+    const contentSection = document.querySelector('.content-section');
+    const featureCards = document.querySelectorAll('.feature-card');
+    const sectionTitle = document.querySelector('.section-title');
     
-    gsap.from('.section-title', {
-        scrollTrigger: {
-            trigger: '.content-section',
-            start: 'top 85%',
-            toggleActions: 'play none none reverse'
-        },
-        y: 50,
-        opacity: 0,
-        duration: 1,
-        ease: 'power2.out'
-    });
+    if (contentSection && featureCards.length > 0) {
+        gsap.from('.feature-card', {
+            scrollTrigger: {
+                trigger: '.content-section',
+                start: 'top 80%',
+                toggleActions: 'play none none reverse'
+            },
+            y: 100,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: 'power2.out'
+        });
+    }
+    
+    if (contentSection && sectionTitle) {
+        gsap.from('.section-title', {
+            scrollTrigger: {
+                trigger: '.content-section',
+                start: 'top 85%',
+                toggleActions: 'play none none reverse'
+            },
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            ease: 'power2.out'
+        });
+    }
 }
 
 /* ============================================
