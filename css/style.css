@@ -1,0 +1,748 @@
+/* ============================================
+   🌸 Elf's Flower Field - 2.5D Parallax Styles
+   ============================================ */
+
+/* ============ CSS Variables ============ */
+:root {
+    /* Color Palette */
+    --color-white: #FFFFFF;
+    --color-green-light: #A8E6CF;
+    --color-green-dark: #78C9A4;
+    --color-pink-sakura: #FFD3B6;
+    --color-pink-deep: #FFB6C1;
+    --color-sky-blue: #87CEEB;
+    --color-sky-light: #B0E0F6;
+    --color-yellow-flower: #FFAAA5;
+    --color-purple-magic: #DDA0DD;
+    
+    /* Typography */
+    --font-display: 'Cinzel Decorative', serif;
+    --font-body: 'Quicksand', sans-serif;
+    
+    /* Sizes */
+    --character-size: 350px;
+    --particle-min: 15px;
+    --particle-max: 40px;
+}
+
+/* ============ Reset & Base ============ */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    background: var(--color-sky-light);
+    overflow-x: hidden;
+    cursor: none; /* Hide default cursor */
+}
+
+/* ============ Custom Cursor ============ */
+.custom-cursor {
+    position: fixed;
+    width: 30px;
+    height: 30px;
+    pointer-events: none;
+    z-index: 10000;
+    font-size: 24px;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease;
+    text-shadow: 0 0 10px rgba(255, 182, 193, 0.8);
+}
+
+.custom-cursor.clicking {
+    transform: translate(-50%, -50%) scale(0.8);
+}
+
+/* ============ Parallax Container ============ */
+.parallax-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.parallax-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 120%;
+    height: 120%;
+    margin-left: -10%;
+    margin-top: -10%;
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+/* ============ Layer 1: Sky ============ */
+.sky-layer {
+    z-index: 1;
+}
+
+.sky-gradient {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        180deg,
+        #7EC8E3 0%,
+        #B0E0F6 30%,
+        #E0F7FF 50%,
+        #FFF8E7 70%,
+        #FFE4E1 100%
+    );
+}
+
+.sun {
+    position: absolute;
+    top: 8%;
+    right: 15%;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, #FFF9C4 0%, #FFE082 50%, transparent 70%);
+    border-radius: 50%;
+    box-shadow: 0 0 60px 30px rgba(255, 236, 179, 0.6);
+    animation: sunGlow 3s ease-in-out infinite;
+}
+
+@keyframes sunGlow {
+    0%, 100% { box-shadow: 0 0 60px 30px rgba(255, 236, 179, 0.6); }
+    50% { box-shadow: 0 0 80px 40px rgba(255, 236, 179, 0.8); }
+}
+
+/* ============ Layer 2: Clouds ============ */
+.clouds-layer {
+    z-index: 2;
+}
+
+.cloud {
+    position: absolute;
+    background: white;
+    border-radius: 100px;
+    opacity: 0.9;
+    animation: floatCloud linear infinite;
+}
+
+.cloud::before,
+.cloud::after {
+    content: '';
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+}
+
+.cloud-1 {
+    width: 150px;
+    height: 50px;
+    top: 10%;
+    left: -20%;
+    animation-duration: 45s;
+}
+.cloud-1::before {
+    width: 60px;
+    height: 60px;
+    top: -30px;
+    left: 20px;
+}
+.cloud-1::after {
+    width: 80px;
+    height: 80px;
+    top: -45px;
+    left: 50px;
+}
+
+.cloud-2 {
+    width: 120px;
+    height: 40px;
+    top: 20%;
+    left: -30%;
+    animation-duration: 55s;
+    animation-delay: -10s;
+}
+.cloud-2::before {
+    width: 50px;
+    height: 50px;
+    top: -25px;
+    left: 15px;
+}
+.cloud-2::after {
+    width: 65px;
+    height: 65px;
+    top: -35px;
+    left: 40px;
+}
+
+.cloud-3 {
+    width: 180px;
+    height: 60px;
+    top: 5%;
+    left: -40%;
+    animation-duration: 60s;
+    animation-delay: -20s;
+}
+.cloud-3::before {
+    width: 70px;
+    height: 70px;
+    top: -35px;
+    left: 25px;
+}
+.cloud-3::after {
+    width: 90px;
+    height: 90px;
+    top: -50px;
+    left: 60px;
+}
+
+.cloud-4 {
+    width: 100px;
+    height: 35px;
+    top: 25%;
+    left: -25%;
+    animation-duration: 50s;
+    animation-delay: -15s;
+}
+.cloud-4::before {
+    width: 40px;
+    height: 40px;
+    top: -20px;
+    left: 12px;
+}
+.cloud-4::after {
+    width: 55px;
+    height: 55px;
+    top: -30px;
+    left: 35px;
+}
+
+.cloud-5 {
+    width: 130px;
+    height: 45px;
+    top: 15%;
+    left: -35%;
+    animation-duration: 52s;
+    animation-delay: -25s;
+}
+.cloud-5::before {
+    width: 55px;
+    height: 55px;
+    top: -28px;
+    left: 18px;
+}
+.cloud-5::after {
+    width: 70px;
+    height: 70px;
+    top: -40px;
+    left: 45px;
+}
+
+@keyframes floatCloud {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(140vw); }
+}
+
+/* ============ Layer 3: Hills ============ */
+.hills-layer {
+    z-index: 3;
+}
+
+.hill {
+    position: absolute;
+    bottom: 0;
+    border-radius: 100% 100% 0 0;
+}
+
+.hill-back-1 {
+    width: 60%;
+    height: 35%;
+    left: -10%;
+    background: linear-gradient(180deg, #90D5A8 0%, #78C9A4 100%);
+}
+
+.hill-back-2 {
+    width: 70%;
+    height: 30%;
+    right: -15%;
+    background: linear-gradient(180deg, #9BD5AC 0%, #82CFA8 100%);
+}
+
+/* ============ Layer 4: Back Grass ============ */
+.grass-back-layer {
+    z-index: 4;
+}
+
+.grass-back {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 40%;
+    background: linear-gradient(180deg, #A8E6CF 0%, #7FD3A8 50%, #5DC28A 100%);
+    border-radius: 30% 50% 0 0;
+}
+
+.flowers-back {
+    position: absolute;
+    bottom: 20%;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    font-size: 24px;
+}
+
+.flower-static {
+    animation: sway 3s ease-in-out infinite;
+    opacity: 0.7;
+}
+
+.flower-static:nth-child(odd) {
+    animation-delay: -1s;
+}
+
+@keyframes sway {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+}
+
+/* ============ Layer 5: Character ============ */
+.character-layer {
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.character-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.character {
+    width: var(--character-size);
+    height: auto;
+    max-width: 90vw;
+    animation: bobbing 1.2s ease-in-out infinite, characterFadeIn 1.5s ease-out 0.5s forwards;
+    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.2));
+    opacity: 0;
+    transform: translateY(50px);
+}
+
+/* CSS-only fallback animation for character entrance */
+@keyframes characterFadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bobbing {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+.character-shadow {
+    width: 180px;
+    height: 20px;
+    background: radial-gradient(ellipse, rgba(0,0,0,0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: shadowPulse 1.2s ease-in-out infinite;
+    margin-top: -30px;
+}
+
+@keyframes shadowPulse {
+    0%, 100% { transform: scaleX(1); opacity: 0.3; }
+    50% { transform: scaleX(0.8); opacity: 0.2; }
+}
+
+/* ============ Layer 6: Front Grass ============ */
+.grass-front-layer {
+    z-index: 6;
+}
+
+.grass-front {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 25%;
+    background: linear-gradient(180deg, #6BC78A 0%, #4CAF50 100%);
+    border-radius: 40% 60% 0 0;
+}
+
+.flowers-front {
+    position: absolute;
+    bottom: 5%;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 0 5%;
+}
+
+.flower-static.large {
+    font-size: 36px;
+    opacity: 0.9;
+    animation: sway 2.5s ease-in-out infinite;
+}
+
+/* ============ Layer 7: Particles ============ */
+.particles-layer {
+    z-index: 7;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    animation: floatParticle linear infinite;
+    will-change: transform;
+    opacity: 0;
+    pointer-events: none;
+}
+
+@keyframes floatParticle {
+    0% {
+        transform: translateY(100vh) translateX(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-20vh) translateX(var(--drift, 100px)) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* ============ Hero Content ============ */
+.hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 100;
+    pointer-events: none;
+}
+
+.hero-title {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.title-line {
+    font-family: var(--font-body);
+    font-size: 1.2rem;
+    color: var(--color-white);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: textFadeIn 0.8s ease-out 0.8s forwards;
+}
+
+/* CSS-only fallback animations for text */
+@keyframes textFadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.title-main {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 8vw, 4.5rem);
+    font-weight: 700;
+    color: var(--color-white);
+    text-shadow: 
+        3px 3px 6px rgba(0, 0, 0, 0.3),
+        0 0 30px rgba(255, 182, 193, 0.5);
+    letter-spacing: 3px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: textFadeIn 1s ease-out 1s forwards;
+}
+
+.title-sub {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    color: var(--color-pink-sakura);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: textFadeIn 0.8s ease-out 1.3s forwards;
+}
+
+.hero-description {
+    font-size: 1.1rem;
+    color: var(--color-white);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    margin-bottom: 30px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: textFadeIn 0.8s ease-out 1.5s forwards;
+}
+
+/* ============ CTA Buttons ============ */
+.cta-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    pointer-events: auto;
+}
+
+.cta-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 35px;
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: buttonFadeIn 0.6s ease-out forwards;
+}
+
+.cta-btn:nth-child(1) {
+    animation-delay: 1.7s;
+}
+
+.cta-btn:nth-child(2) {
+    animation-delay: 1.9s;
+}
+
+@keyframes buttonFadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.cta-btn.primary {
+    background: linear-gradient(135deg, var(--color-pink-sakura) 0%, var(--color-yellow-flower) 100%);
+    color: #5D4E37;
+    box-shadow: 0 8px 25px rgba(255, 170, 165, 0.4);
+}
+
+.cta-btn.primary:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(255, 170, 165, 0.5);
+}
+
+.cta-btn.secondary {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--color-white);
+    border: 2px solid var(--color-white);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+}
+
+.cta-btn.secondary:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(255, 255, 255, 0.3);
+}
+
+.btn-icon {
+    font-size: 1.3rem;
+    animation: iconPulse 2s ease-in-out infinite;
+}
+
+@keyframes iconPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+/* ============ Scroll Indicator ============ */
+.scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 100;
+    opacity: 0;
+    animation: textFadeIn 1s ease-out 2.2s forwards;
+}
+
+.scroll-text {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--color-white);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    margin-bottom: 10px;
+}
+
+.scroll-arrow {
+    font-size: 1.5rem;
+    color: var(--color-white);
+    animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(10px); }
+}
+
+/* ============ Content Section ============ */
+.content-section {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #5DC28A 0%, #A8E6CF 50%, var(--color-sky-light) 100%);
+    padding: 100px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content-wrapper {
+    max-width: 1200px;
+    text-align: center;
+}
+
+.section-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    color: var(--color-white);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    margin-bottom: 60px;
+}
+
+.feature-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    padding: 40px 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.card-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 20px;
+}
+
+.feature-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: #5D4E37;
+    margin-bottom: 15px;
+}
+
+.feature-card p {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* ============ Responsive Design ============ */
+@media (max-width: 768px) {
+    :root {
+        --character-size: 250px;
+    }
+    
+    .hero-content {
+        padding: 0 20px;
+        width: 100%;
+    }
+    
+    .title-main {
+        font-size: clamp(1.8rem, 10vw, 3rem);
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .cta-btn {
+        width: 80%;
+        justify-content: center;
+    }
+    
+    .sun {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .cloud {
+        transform: scale(0.7);
+    }
+    
+    .scroll-indicator {
+        bottom: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --character-size: 200px;
+    }
+    
+    .title-line,
+    .title-sub {
+        font-size: 0.9rem;
+    }
+    
+    .hero-description {
+        font-size: 0.95rem;
+    }
+    
+    .cta-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+    
+    .particle {
+        font-size: 0.8em;
+    }
+}
+
+/* ============ Reduced Motion ============ */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* ============ Print Styles ============ */
+@media print {
+    .parallax-container {
+        height: auto;
+    }
+    
+    .parallax-layer {
+        position: relative;
+    }
+    
+    .particles-layer,
+    .custom-cursor,
+    .scroll-indicator {
+        display: none;
+    }
+}
